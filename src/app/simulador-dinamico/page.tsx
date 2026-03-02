@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { generateGames, SimulationResult } from "@/utils/lotofacil";
+import { generateDynamicGames, DynamicSimulationResult } from "@/utils/lotofacil";
 
-export default function Home() {
+export default function SimuladorDinamico() {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
-  const [result, setResult] = useState<SimulationResult | null>(null);
+  const [numGames, setNumGames] = useState<number>(10);
+  const [result, setResult] = useState<DynamicSimulationResult | null>(null);
 
   const toggleNumber = (num: number) => {
     if (selectedNumbers.includes(num)) {
@@ -25,7 +26,7 @@ export default function Home() {
   const handleGenerate = () => {
     if (selectedNumbers.length === 15) {
       try {
-        const res = generateGames(selectedNumbers);
+        const res = generateDynamicGames(selectedNumbers, numGames);
         setResult(res);
       } catch (e) {
         alert("Erro ao gerar simulação.");
@@ -60,10 +61,10 @@ export default function Home() {
       {/* Header */}
       <header className="pt-8 pb-8 px-6 flex flex-col items-center relative">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-400 verde:from-emerald-300 verde:to-teal-200 pb-2 text-center mt-6 md:mt-0">
-          Lotofácil Simulator
+          Simulador Dinâmico
         </h1>
         <p className="mt-4 text-emerald-800/60 dark:text-emerald-200/50 verde:text-emerald-200/70 max-w-lg mx-auto text-lg leading-relaxed text-center">
-          Selecione os 15 números sorteados do último concurso para simular os fechamentos avançados.
+          Selecione 15 dezenas e gere qualquer quantidade de jogos usando a nossa modelagem preditiva em alta escala.
         </p>
       </header>
 
@@ -102,7 +103,22 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-10 flex justify-center">
+          <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-6">
+            <div className="flex items-center gap-4 bg-zinc-100/50 dark:bg-zinc-800/50 verde:bg-emerald-900/50 px-4 py-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50">
+              <label htmlFor="numGames" className="text-sm font-bold text-zinc-700 dark:text-zinc-300 verde:text-emerald-200">
+                Quantidade de Jogos:
+              </label>
+              <input
+                id="numGames"
+                type="number"
+                min={1}
+                max={500}
+                value={numGames}
+                onChange={(e) => setNumGames(Math.max(1, Math.min(500, Number(e.target.value))))}
+                className="w-20 bg-white dark:bg-zinc-900/80 verde:bg-emerald-800/80 border border-zinc-300 dark:border-zinc-600 verde:border-emerald-600 rounded-lg px-3 py-1.5 text-center font-bold outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+            </div>
+
             <button
               onClick={handleGenerate}
               disabled={selectedNumbers.length !== 15}
@@ -111,7 +127,7 @@ export default function Home() {
                 : "bg-zinc-200 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-600 verde:bg-emerald-900/50 verde:text-emerald-700/50 cursor-not-allowed"
                 }`}
             >
-              Simular Apostas
+              Simular Apostas Dinâmicas
             </button>
           </div>
         </section>
@@ -127,30 +143,14 @@ export default function Home() {
               <div className="bg-white/40 dark:bg-zinc-900/30 verde:bg-emerald-900/20 backdrop-blur-md rounded-3xl p-6 border border-emerald-100 dark:border-emerald-900/30 verde:border-emerald-800/50 h-full">
                 <h3 className="text-xl font-bold text-emerald-600 dark:text-emerald-400 verde:text-emerald-300 mb-6 flex items-center">
                   <span className="w-2 h-6 bg-emerald-500 verde:bg-emerald-400 rounded-full mr-3 block"></span>
-                  Análise das Sorteadas (15)
+                  Garantia das Sorteadas
                 </h3>
 
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Fixas Sorteadas (3)</h4>
+                    <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Fixas Sorteadas (3) mantidas em todos os jogos</h4>
                     <div className="flex flex-wrap gap-2">
                       {result.fixas_sorteadas.map(n => <div key={n} className={getNumberClass(n, 'fixa')}>{formatNum(n)}</div>)}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white dark:bg-zinc-900/50 verde:bg-emerald-800/30 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800 verde:border-emerald-700/30">
-                      <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Grupo A Base (6)</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {result.A_base.map(n => <div key={n} className={getNumberClass(n, 'display')}>{formatNum(n)}</div>)}
-                      </div>
-                    </div>
-
-                    <div className="bg-white dark:bg-zinc-900/50 verde:bg-emerald-800/30 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800 verde:border-emerald-700/30">
-                      <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Grupo B Base (6)</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {result.B_base.map(n => <div key={n} className={getNumberClass(n, 'display')}>{formatNum(n)}</div>)}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -160,30 +160,14 @@ export default function Home() {
               <div className="bg-white/40 dark:bg-zinc-900/30 verde:bg-emerald-900/20 backdrop-blur-md rounded-3xl p-6 border border-red-100 dark:border-red-900/30 verde:border-emerald-800/50 h-full">
                 <h3 className="text-xl font-bold text-red-500 dark:text-red-400 verde:text-emerald-300 mb-6 flex items-center">
                   <span className="w-2 h-6 bg-red-500 verde:bg-emerald-400 rounded-full mr-3 block"></span>
-                  Análise das Não Sorteadas (10)
+                  Garantia das Omitidas
                 </h3>
 
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Fixas Não Sorteadas (2)</h4>
+                    <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Fixas Omitidas (2) mantidas em todos os jogos</h4>
                     <div className="flex flex-wrap gap-2">
                       {result.fixas_nao_sorteadas.map(n => <div key={n} className={getNumberClass(n, 'fixa')}>{formatNum(n)}</div>)}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white dark:bg-zinc-900/50 verde:bg-emerald-800/30 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800 verde:border-emerald-700/30">
-                      <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Grupo R3 Base (4)</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {result.R3_base.map(n => <div key={n} className={getNumberClass(n, 'display')}>{formatNum(n)}</div>)}
-                      </div>
-                    </div>
-
-                    <div className="bg-white dark:bg-zinc-900/50 verde:bg-emerald-800/30 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800 verde:border-emerald-700/30">
-                      <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Grupo R4 Base (4)</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {result.R4_base.map(n => <div key={n} className={getNumberClass(n, 'display')}>{formatNum(n)}</div>)}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -192,33 +176,25 @@ export default function Home() {
 
             {/* Final Games */}
             <section className="space-y-6">
-              <h2 className="text-3xl font-extrabold text-center mb-10 verde:text-emerald-100">4 Apostas Geradas</h2>
+              <h2 className="text-3xl font-extrabold text-center mb-10 verde:text-emerald-100">{result.jogos.length} Apostas Geradas</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {[
-                  { title: "Jogo 1", desc: "A + R3", nums: result.jogos[0] },
-                  { title: "Jogo 2", desc: "B + R4", nums: result.jogos[1] },
-                  { title: "Jogo 3", desc: "A + R4", nums: result.jogos[2] },
-                  { title: "Jogo 4", desc: "B + R3", nums: result.jogos[3] },
-                ].map((jogo, i) => (
-                  <div key={i} className="bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900 dark:to-black verde:from-emerald-900 verde:to-emerald-950 rounded-3xl p-6 md:p-8 shadow-xl border border-zinc-200/50 dark:border-zinc-800/80 verde:border-emerald-800/50 hover:scale-[1.02] transition-transform duration-300">
-                    <div className="flex justify-between items-center mb-6 border-b border-zinc-100 dark:border-zinc-800 verde:border-emerald-800/50 pb-4">
-                      <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400 verde:from-emerald-100 verde:to-emerald-400">
-                        {jogo.title}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {result.jogos.map((jogo, i) => (
+                  <div key={i} className="bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900 dark:to-black verde:from-emerald-900 verde:to-emerald-950 rounded-3xl p-5 shadow-xl border border-zinc-200/50 dark:border-zinc-800/80 verde:border-emerald-800/50 hover:scale-[1.02] transition-transform duration-300">
+                    <div className="flex justify-between items-center mb-4 border-b border-zinc-100 dark:border-zinc-800 verde:border-emerald-800/50 pb-3">
+                      <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400 verde:from-emerald-100 verde:to-emerald-400">
+                        Jogo {i + 1}
                       </h3>
-                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 verde:bg-emerald-800/50 text-zinc-500 dark:text-zinc-400 verde:text-emerald-300">
-                        Combinação: {jogo.desc}
-                      </span>
                     </div>
-                    <div className="flex flex-wrap gap-2 md:gap-3">
-                      {jogo.nums.map(n => {
+                    <div className="flex flex-wrap gap-1.5">
+                      {jogo.map(n => {
                         const isSortFixa = result.fixas_sorteadas.includes(n);
                         const isNaoSortFixa = result.fixas_nao_sorteadas.includes(n);
                         const isSorteada = result.sorteadas.includes(n);
 
                         let colorClass = "bg-white dark:bg-zinc-800 verde:bg-emerald-800/50 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50 verde:text-emerald-100";
                         if (isSortFixa || isNaoSortFixa) {
-                          colorClass = "bg-gradient-to-br from-amber-400 to-amber-600 border-none text-white shadow-md shadow-amber-500/20 verde:shadow-amber-900/30";
+                          colorClass = "bg-gradient-to-br from-amber-400 to-amber-600 border-none text-white shadow-sm shadow-amber-500/20 verde:shadow-amber-900/30";
                         } else if (isSorteada) {
                           colorClass = "bg-emerald-50 dark:bg-emerald-900/30 verde:bg-emerald-700/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 verde:border-emerald-600/50";
                         } else {
@@ -226,7 +202,7 @@ export default function Home() {
                         }
 
                         return (
-                          <div key={n} className={`flex items-center justify-center font-bold text-sm w-11 h-11 rounded-full shadow-sm transition-all duration-300 hover:-translate-y-1 ${colorClass}`}>
+                          <div key={n} className={`flex items-center justify-center font-bold text-xs w-9 h-9 rounded-full shadow-sm transition-all duration-300 hover:-translate-y-1 ${colorClass}`}>
                             {formatNum(n)}
                           </div>
                         )
