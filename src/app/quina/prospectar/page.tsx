@@ -1,23 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { generateDynamicGames, DynamicSimulationResult } from "@/utils/lotofacil";
-import { prospectNumbers } from "@/app/actions";
+import { generateDynamicQuinaGames, DynamicQuinaSimulationResult } from "@/utils/quina";
+import { prospectQuinaNumbers } from "@/app/actions";
 
-export default function Prospectar() {
+export default function ProspectarQuina() {
     const [limit, setLimit] = useState<number | "all">(10);
     const [numGames, setNumGames] = useState<number>(10);
     const [loading, setLoading] = useState(false);
     const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
-    const [result, setResult] = useState<DynamicSimulationResult | null>(null);
+    const [result, setResult] = useState<DynamicQuinaSimulationResult | null>(null);
 
     const handleProspect = async () => {
         setLoading(true);
         setResult(null);
         try {
-            const topNumbers = await prospectNumbers(limit);
+            const topNumbers = await prospectQuinaNumbers(limit);
             setSelectedNumbers(topNumbers);
-            const res = generateDynamicGames(topNumbers, numGames);
+            const res = generateDynamicQuinaGames(topNumbers, numGames);
             setResult(res);
         } catch (e) {
             alert("Erro ao prospectar resultados.");
@@ -39,13 +39,13 @@ export default function Prospectar() {
         if (context === 'selector') {
             return baseClass + `w-12 h-12 rounded-xl shadow-sm
         ${isSelected
-                    ? "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-emerald-500/30 verde:from-emerald-300 verde:to-emerald-500"
+                    ? "bg-gradient-to-br from-blue-400 to-blue-600 text-white shadow-blue-500/30 verde:from-blue-300 verde:to-blue-500"
                     : "bg-white dark:bg-zinc-800 verde:bg-emerald-900/60 text-zinc-700 dark:text-zinc-300 verde:text-emerald-100 border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50"
                 }`;
         }
 
         if (context === 'fixa') {
-            return baseClass + "w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-md shadow-amber-500/20";
+            return baseClass + "w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 text-white shadow-md shadow-indigo-500/20";
         }
 
         return baseClass + "w-10 h-10 rounded-full bg-white dark:bg-zinc-800 verde:bg-emerald-800/60 text-zinc-800 dark:text-zinc-200 verde:text-emerald-50 border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50 shadow-sm";
@@ -54,15 +54,15 @@ export default function Prospectar() {
     const formatNum = (n: number) => n.toString().padStart(2, "0");
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 verde:bg-[#022c22] text-zinc-900 dark:text-zinc-100 verde:text-emerald-50 font-sans selection:bg-emerald-500/30 pb-20 transition-colors duration-500">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 verde:bg-[#022c22] text-zinc-900 dark:text-zinc-100 verde:text-emerald-50 font-sans selection:bg-blue-500/30 pb-20 transition-colors duration-500">
 
             {/* Header */}
             <header className="pt-8 pb-8 px-6 flex flex-col items-center">
-                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-400 verde:from-emerald-300 verde:to-teal-200 pb-2 text-center mt-6 md:mt-0">
-                    Prospecção Inteligente
+                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-400 verde:from-blue-300 verde:to-indigo-300 pb-2 text-center mt-6 md:mt-0">
+                    Prospecção Inteligente Quina
                 </h1>
-                <p className="mt-4 text-emerald-800/60 dark:text-emerald-200/50 verde:text-emerald-200/70 max-w-lg mx-auto text-lg leading-relaxed text-center">
-                    Analise a base de dados oficial e gere jogos automaticamente com base nas 15 dezenas mais frequentes.
+                <p className="mt-4 text-blue-800/60 dark:text-blue-200/50 verde:text-blue-200/70 max-w-lg mx-auto text-lg leading-relaxed text-center">
+                    Analise a base de dados oficial e gere jogos automaticamente com base nas 5 dezenas mais frequentes.
                 </p>
             </header>
 
@@ -72,14 +72,14 @@ export default function Prospectar() {
                 <section className="bg-white/60 dark:bg-zinc-900/40 verde:bg-emerald-950/40 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-zinc-200/50 dark:border-zinc-800/50 verde:border-emerald-800/40 shadow-xl shadow-zinc-200/20 dark:shadow-black/40 verde:shadow-emerald-900/20 max-w-3xl mx-auto flex flex-col md:flex-row items-end gap-6">
                     <div className="flex-1 w-full flex flex-col sm:flex-row gap-6">
                         <div className="flex-1 flex flex-col justify-end">
-                            <label htmlFor="limit" className="block text-sm font-bold text-zinc-700 dark:text-zinc-300 verde:text-emerald-200 mb-2">
+                            <label htmlFor="limit" className="block text-sm whitespace-nowrap font-bold text-zinc-700 dark:text-zinc-300 verde:text-blue-200 mb-2">
                                 Quantidade de Últimos Concursos:
                             </label>
                             <select
                                 id="limit"
                                 value={limit}
                                 onChange={(e) => setLimit(e.target.value === "all" ? "all" : Number(e.target.value))}
-                                className="w-full h-12 bg-white dark:bg-zinc-900 verde:bg-emerald-900 border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50 rounded-xl px-4 text-zinc-900 dark:text-white verde:text-emerald-50 font-medium focus:ring-2 focus:ring-emerald-500 outline-none transition-shadow"
+                                className="w-full h-12 bg-white dark:bg-zinc-900 verde:bg-emerald-900 border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50 rounded-xl px-4 text-zinc-900 dark:text-white verde:text-emerald-50 font-medium focus:ring-2 focus:ring-blue-500 outline-none transition-shadow"
                             >
                                 <option value={10}>Últimos 10 concursos</option>
                                 <option value={20}>Últimos 20 concursos</option>
@@ -95,7 +95,7 @@ export default function Prospectar() {
                         </div>
 
                         <div className="flex-1 flex flex-col justify-end">
-                            <label htmlFor="numGames" className="block text-sm font-bold text-zinc-700 dark:text-zinc-300 verde:text-emerald-200 mb-2">
+                            <label htmlFor="numGames" className="block text-sm whitespace-nowrap font-bold text-zinc-700 dark:text-zinc-300 verde:text-blue-200 mb-2">
                                 Quantidade de Jogos:
                             </label>
                             <input
@@ -105,7 +105,7 @@ export default function Prospectar() {
                                 max={500}
                                 value={numGames}
                                 onChange={(e) => setNumGames(Math.max(1, Math.min(500, Number(e.target.value))))}
-                                className="w-full h-12 bg-white dark:bg-zinc-900 verde:bg-emerald-900 border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50 rounded-xl px-4 text-zinc-900 dark:text-white verde:text-emerald-50 font-medium focus:ring-2 focus:ring-emerald-500 outline-none transition-shadow"
+                                className="w-full h-12 bg-white dark:bg-zinc-900 verde:bg-emerald-900 border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50 rounded-xl px-4 text-zinc-900 dark:text-white verde:text-emerald-50 font-medium focus:ring-2 focus:ring-blue-500 outline-none transition-shadow"
                             />
                         </div>
                     </div>
@@ -115,21 +115,21 @@ export default function Prospectar() {
                         disabled={loading}
                         className={`w-full md:w-auto px-8 h-12 rounded-xl font-bold text-base md:text-lg transition-all duration-300 shadow-lg shrink-0 ${loading
                             ? "bg-zinc-200 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-600 cursor-wait"
-                            : "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100 hover:scale-105 hover:shadow-xl shadow-zinc-900/20 dark:shadow-white/20 verde:bg-emerald-500 verde:text-white verde:hover:bg-emerald-400 verde:shadow-emerald-500/30"
+                            : "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100 hover:scale-105 hover:shadow-xl shadow-zinc-900/20 dark:shadow-white/20 verde:bg-blue-600 verde:text-white verde:hover:bg-blue-500 verde:shadow-blue-500/30"
                             }`}
                     >
-                        {loading ? "Calculando..." : "Prospectar"}
+                        {loading ? "Calculando..." : "Prospectar Quina"}
                     </button>
                 </section>
 
                 {/* Results Section */}
-                {result && selectedNumbers.length === 15 && (
+                {result && selectedNumbers.length === 5 && (
                     <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
 
-                        {/* Top 15 Highlight */}
+                        {/* Top 5 Highlight */}
                         <section className="text-center">
                             <div className="flex justify-center items-center mb-6 relative">
-                                <h2 className="text-2xl font-bold text-center">As 15 Dezenas Mais Frequentes</h2>
+                                <h2 className="text-2xl font-bold text-center">As 5 Dezenas Mais Frequentes</h2>
                                 <button
                                     onClick={clearSelection}
                                     className="absolute right-0 text-sm font-medium text-red-500 hover:text-red-600 dark:hover:text-red-400 verde:text-emerald-400 verde:hover:text-emerald-300 transition-colors"
@@ -137,7 +137,7 @@ export default function Prospectar() {
                                     Limpar
                                 </button>
                             </div>
-                            <div className="grid grid-cols-5 md:grid-cols-10 lg:grid-cols-15 gap-3 md:gap-4 justify-items-center max-w-fit mx-auto bg-white/40 dark:bg-zinc-900/30 verde:bg-emerald-950/40 p-6 rounded-3xl border border-zinc-200/50 dark:border-zinc-800/50 verde:border-emerald-800/40">
+                            <div className="flex flex-wrap gap-4 justify-center bg-white/40 dark:bg-zinc-900/30 verde:bg-emerald-950/40 p-6 rounded-3xl border border-zinc-200/50 dark:border-zinc-800/50 verde:border-emerald-800/40 w-fit mx-auto">
                                 {selectedNumbers.map((num) => (
                                     <div
                                         key={num}
@@ -153,15 +153,15 @@ export default function Prospectar() {
                         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                             {/* Dezenas Sorteadas Analysis */}
-                            <div className="bg-white/40 dark:bg-zinc-900/30 verde:bg-emerald-900/20 backdrop-blur-md rounded-3xl p-6 border border-emerald-100 dark:border-emerald-900/30 verde:border-emerald-800/50 h-full">
-                                <h3 className="text-xl font-bold text-emerald-600 dark:text-emerald-400 verde:text-emerald-300 mb-6 flex items-center">
-                                    <span className="w-2 h-6 bg-emerald-500 verde:bg-emerald-400 rounded-full mr-3 block"></span>
+                            <div className="bg-white/40 dark:bg-zinc-900/30 verde:bg-emerald-900/20 backdrop-blur-md rounded-3xl p-6 border border-blue-100 dark:border-blue-900/30 verde:border-blue-800/50 h-full">
+                                <h3 className="text-xl font-bold text-blue-600 dark:text-blue-400 verde:text-blue-300 mb-6 flex items-center">
+                                    <span className="w-2 h-6 bg-blue-500 verde:bg-blue-400 rounded-full mr-3 block"></span>
                                     Garantia das Frequentes
                                 </h3>
 
                                 <div className="space-y-6">
                                     <div>
-                                        <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Fixas Extraídas (3) mantidas em todos os jogos</h4>
+                                        <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Fixa Extraída (1) mantida em todos os jogos</h4>
                                         <div className="flex flex-wrap gap-2">
                                             {result.fixas_sorteadas.map(n => <div key={n} className={getNumberClass(n, 'fixa')}>{formatNum(n)}</div>)}
                                         </div>
@@ -171,14 +171,14 @@ export default function Prospectar() {
 
                             {/* Dezenas Não Sorteadas Analysis */}
                             <div className="bg-white/40 dark:bg-zinc-900/30 verde:bg-emerald-900/20 backdrop-blur-md rounded-3xl p-6 border border-red-100 dark:border-red-900/30 verde:border-emerald-800/50 h-full">
-                                <h3 className="text-xl font-bold text-red-500 dark:text-red-400 verde:text-emerald-300 mb-6 flex items-center">
-                                    <span className="w-2 h-6 bg-red-500 verde:bg-emerald-400 rounded-full mr-3 block"></span>
+                                <h3 className="text-xl font-bold text-red-500 dark:text-red-400 verde:text-red-300 mb-6 flex items-center">
+                                    <span className="w-2 h-6 bg-red-500 verde:bg-red-400 rounded-full mr-3 block"></span>
                                     Garantia das Omitidas
                                 </h3>
 
                                 <div className="space-y-6">
                                     <div>
-                                        <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Fixas Omitidas (2) mantidas em todos os jogos</h4>
+                                        <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400/70 uppercase tracking-wider mb-3">Fixa Omitida (1) mantida em todos os jogos</h4>
                                         <div className="flex flex-wrap gap-2">
                                             {result.fixas_nao_sorteadas.map(n => <div key={n} className={getNumberClass(n, 'fixa')}>{formatNum(n)}</div>)}
                                         </div>
@@ -189,17 +189,17 @@ export default function Prospectar() {
 
                         {/* Final Games */}
                         <section className="space-y-6">
-                            <h2 className="text-3xl font-extrabold text-center mb-10 verde:text-emerald-100">{result.jogos.length} Apostas Geradas (Prospecção Inteligente)</h2>
+                            <h2 className="text-3xl font-extrabold text-center mb-10 verde:text-blue-100">{result.jogos.length} Apostas Geradas (Prospecção Inteligente Quina)</h2>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                 {result.jogos.map((jogo, i) => (
-                                    <div key={i} className="bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900 dark:to-black verde:from-emerald-900 verde:to-emerald-950 rounded-3xl p-5 shadow-xl border border-zinc-200/50 dark:border-zinc-800/80 verde:border-emerald-800/50 hover:scale-[1.02] transition-transform duration-300">
-                                        <div className="flex justify-between items-center mb-4 border-b border-zinc-100 dark:border-zinc-800 verde:border-emerald-800/50 pb-3">
-                                            <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400 verde:from-emerald-100 verde:to-emerald-400">
+                                    <div key={i} className="bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900 dark:to-black verde:from-sky-900 verde:to-blue-950 rounded-3xl p-5 shadow-xl border border-zinc-200/50 dark:border-zinc-800/80 verde:border-blue-800/50 hover:scale-[1.02] transition-transform duration-300">
+                                        <div className="flex justify-between items-center mb-4 border-b border-zinc-100 dark:border-zinc-800 verde:border-blue-800/50 pb-3">
+                                            <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400 verde:from-blue-100 verde:to-blue-300">
                                                 Jogo {i + 1}
                                             </h3>
                                         </div>
-                                        <div className="flex flex-wrap gap-1.5">
+                                        <div className="flex flex-wrap gap-2">
                                             {jogo.map(n => {
                                                 const isSortFixa = result.fixas_sorteadas.includes(n);
                                                 const isNaoSortFixa = result.fixas_nao_sorteadas.includes(n);
@@ -207,9 +207,9 @@ export default function Prospectar() {
 
                                                 let colorClass = "bg-white dark:bg-zinc-800 verde:bg-emerald-800/50 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 verde:border-emerald-700/50 verde:text-emerald-100";
                                                 if (isSortFixa || isNaoSortFixa) {
-                                                    colorClass = "bg-gradient-to-br from-amber-400 to-amber-600 border-none text-white shadow-sm shadow-amber-500/20 verde:shadow-amber-900/30";
+                                                    colorClass = "bg-gradient-to-br from-indigo-400 to-indigo-600 border-none text-white shadow-sm shadow-indigo-500/20 verde:shadow-indigo-900/30";
                                                 } else if (isSorteada) {
-                                                    colorClass = "bg-emerald-50 dark:bg-emerald-900/30 verde:bg-emerald-700/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 verde:border-emerald-600/50";
+                                                    colorClass = "bg-blue-50 dark:bg-blue-900/30 verde:bg-blue-700/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/50 verde:border-blue-600/50";
                                                 } else {
                                                     colorClass = "bg-red-50 dark:bg-red-900/30 verde:bg-[#3f1919]/50 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/50 verde:border-[#522929]/50";
                                                 }

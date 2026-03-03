@@ -19,7 +19,9 @@ export const metadata: Metadata = {
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/navigation";
+import { Sidebar } from "@/components/Sidebar";
 import { PixDonation } from "@/components/PixDonation";
+import { MobileThemeEnforcer } from "@/components/MobileThemeEnforcer";
 
 export default function RootLayout({
   children,
@@ -29,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-50 dark:bg-zinc-950 verde:bg-[#022c22] text-zinc-900 dark:text-zinc-100 verde:text-emerald-50 transition-colors duration-500`}
       >
         <ThemeProvider
           attribute="class"
@@ -38,8 +40,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navigation />
-          {children}
+          <div className="flex min-h-screen max-w-[100vw] overflow-hidden">
+            <MobileThemeEnforcer />
+            <Sidebar />
+            <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto pt-16 pb-6 md:pt-0 md:pb-0">
+              <Navigation />
+              {children}
+            </div>
+          </div>
           <PixDonation />
         </ThemeProvider>
       </body>

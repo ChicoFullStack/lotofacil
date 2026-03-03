@@ -26,16 +26,16 @@ export function PixDonation() {
         return (
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white rounded-full p-4 shadow-lg shadow-emerald-500/30 transition-all hover:scale-110 flex items-center justify-center group"
+                className="fixed top-3 right-4 md:bottom-6 md:right-6 md:top-auto z-50 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white rounded-full p-3 md:p-4 shadow-lg shadow-emerald-500/30 transition-all hover:scale-110 flex items-center justify-center group"
                 title="Apoie este projeto"
             >
-                <Heart className="w-6 h-6 animate-pulse group-hover:animate-none" />
+                <Heart className="w-5 h-5 md:w-6 md:h-6 animate-pulse group-hover:animate-none" />
             </button>
         );
     }
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300">
+        <div className="fixed top-4 right-4 md:bottom-6 md:right-6 md:top-auto z-50 animate-in slide-in-from-top-5 md:slide-in-from-bottom-5 fade-in duration-300">
             <div className="bg-white/80 dark:bg-zinc-900/90 verde:bg-emerald-950/90 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-800/50 verde:border-emerald-800/50 rounded-3xl p-6 shadow-2xl w-80 relative flex flex-col items-center text-center">
 
                 <button
@@ -79,8 +79,8 @@ export function PixDonation() {
                 <button
                     onClick={handleCopy}
                     className={`w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all duration-300 ${copied
-                            ? "bg-emerald-500 text-white shadow-emerald-500/30"
-                            : "bg-zinc-900 dark:bg-zinc-100 verde:bg-emerald-500 text-white dark:text-zinc-900 verde:text-white hover:bg-zinc-800 dark:hover:bg-white verde:hover:bg-emerald-400 shadow-zinc-900/20 dark:shadow-white/20 verde:shadow-emerald-500/30"
+                        ? "bg-emerald-500 text-white shadow-emerald-500/30"
+                        : "bg-zinc-900 dark:bg-zinc-100 verde:bg-emerald-500 text-white dark:text-zinc-900 verde:text-white hover:bg-zinc-800 dark:hover:bg-white verde:hover:bg-emerald-400 shadow-zinc-900/20 dark:shadow-white/20 verde:shadow-emerald-500/30"
                         } shadow-lg hover:-translate-y-0.5`}
                 >
                     {copied ? (
