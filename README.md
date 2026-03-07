@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/nextjs/next.js/canary/assets/next.js.png" alt="Next.js" width="100"/>
+
   <h1>🍀 Loterias Pro</h1>
   <p><strong>Plataforma Inteligente para Análise e Simulação de Loterias</strong></p>
   
