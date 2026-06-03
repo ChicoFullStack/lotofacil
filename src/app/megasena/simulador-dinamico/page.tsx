@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { generateDynamicMegasenaGames, DynamicMegasenaSimulationResult } from "@/utils/megasena";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function SimuladorDinamicoMegasena() {
     const [numGames, setNumGames] = useState<number>(10);
@@ -213,6 +214,8 @@ export default function SimuladorDinamicoMegasena() {
                                 ))}
                             </div>
                         </section>
+
+                        <DonationCTA />
 
                     </div>
                 )}

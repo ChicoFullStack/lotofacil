@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { generateDynamicQuinaGames, DynamicQuinaSimulationResult } from "@/utils/quina";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function SimuladorDinamicoQuina() {
     const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
@@ -212,6 +213,8 @@ export default function SimuladorDinamicoQuina() {
                                 ))}
                             </div>
                         </section>
+
+                        <DonationCTA />
 
                     </div>
                 )}

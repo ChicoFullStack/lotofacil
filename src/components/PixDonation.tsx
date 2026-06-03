@@ -10,9 +10,9 @@ export function PixDonation() {
     const [amount, setAmount] = useState<number>(10);
     const [copied, setCopied] = useState(false);
 
-    const PIX_KEY = "eb279503-2ef3-46c4-8186-fb562a0ea7cc";
-    const MERCHANT_NAME = "Doacao App Lotofacil";
-    const MERCHANT_CITY = "SAO PAULO";
+    const PIX_KEY = process.env.NEXT_PUBLIC_PIX_KEY || "eb279503-2ef3-46c4-8186-fb562a0ea7cc";
+    const MERCHANT_NAME = process.env.NEXT_PUBLIC_PIX_NAME || "Doacao App Lotofacil";
+    const MERCHANT_CITY = process.env.NEXT_PUBLIC_PIX_CITY || "SAO PAULO";
 
     const pixPayload = generatePixPayload(PIX_KEY, amount, MERCHANT_NAME, MERCHANT_CITY);
 
@@ -22,21 +22,23 @@ export function PixDonation() {
         setTimeout(() => setCopied(false), 2000);
     };
 
+    const presetAmounts = [5, 10, 20, 50];
+
     if (!isOpen) {
         return (
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed top-3 right-4 md:bottom-6 md:right-6 md:top-auto z-50 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white rounded-full p-3 md:p-4 shadow-lg shadow-emerald-500/30 transition-all hover:scale-110 flex items-center justify-center group"
+                className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-400 hover:to-amber-400 text-white rounded-full p-4 shadow-lg shadow-rose-500/30 transition-all hover:scale-110 flex items-center justify-center group"
                 title="Apoie este projeto"
             >
-                <Heart className="w-5 h-5 md:w-6 md:h-6 animate-pulse group-hover:animate-none" />
+                <Heart className="w-6 h-6 animate-pulse group-hover:animate-none fill-current" />
             </button>
         );
     }
 
     return (
-        <div className="fixed top-4 right-4 md:bottom-6 md:right-6 md:top-auto z-50 animate-in slide-in-from-top-5 md:slide-in-from-bottom-5 fade-in duration-300">
-            <div className="bg-white/80 dark:bg-zinc-900/90 verde:bg-emerald-950/90 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-800/50 verde:border-emerald-800/50 rounded-3xl p-6 shadow-2xl w-80 relative flex flex-col items-center text-center">
+        <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300">
+            <div className="bg-white/90 dark:bg-zinc-900/90 verde:bg-emerald-950/90 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-800/50 verde:border-emerald-800/50 rounded-3xl p-6 shadow-2xl w-80 relative flex flex-col items-center text-center">
 
                 <button
                     onClick={() => setIsOpen(false)}
@@ -45,21 +47,37 @@ export function PixDonation() {
                     <X className="w-5 h-5" />
                 </button>
 
-                <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 verde:bg-emerald-800/50 text-emerald-600 dark:text-emerald-400 verde:text-emerald-300 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-950/30 verde:bg-emerald-900/50 text-rose-500 dark:text-rose-400 verde:text-emerald-300 flex items-center justify-center mb-3">
                     <Heart className="w-6 h-6 fill-current" />
                 </div>
 
-                <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-300 verde:from-emerald-300 verde:to-teal-200 mb-2">
+                <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-amber-500 dark:from-rose-400 dark:to-amber-300 verde:from-emerald-300 verde:to-teal-200 mb-1">
                     Apoie o Projeto
                 </h3>
 
-                <p className="text-sm text-zinc-500 dark:text-zinc-400 verde:text-emerald-200/70 mb-6">
-                    Sua doação ajuda a manter este simulador no ar e sem anúncios.
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 verde:text-emerald-200/70 mb-4">
+                    Ajude a manter os servidores ativos e o simulador 100% livre de anúncios.
                 </p>
 
-                <div className="w-full mb-6">
-                    <label htmlFor="amount" className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 verde:text-emerald-200 mb-1 text-left">
-                        Valor da colaboração (R$):
+                {/* Preset values */}
+                <div className="grid grid-cols-4 gap-2 w-full mb-3">
+                    {presetAmounts.map((preset) => (
+                        <button
+                            key={preset}
+                            onClick={() => setAmount(preset)}
+                            className={`py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${amount === preset
+                                ? "bg-rose-500 text-white shadow-sm"
+                                : "bg-zinc-100 dark:bg-zinc-800 verde:bg-emerald-900/40 text-zinc-600 dark:text-zinc-400 verde:text-emerald-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 verde:hover:bg-emerald-800/60"
+                                }`}
+                        >
+                            R$ {preset}
+                        </button>
+                    ))}
+                </div>
+
+                <div className="w-full mb-4">
+                    <label htmlFor="amount" className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 verde:text-emerald-400 uppercase tracking-wider mb-1 text-left">
+                        Ou digite outro valor (R$):
                     </label>
                     <input
                         id="amount"
@@ -68,12 +86,12 @@ export function PixDonation() {
                         step="1"
                         value={amount}
                         onChange={(e) => setAmount(Math.max(1, Number(e.target.value)))}
-                        className="w-full bg-zinc-100 dark:bg-zinc-950 verde:bg-[#022c22] border border-zinc-200 dark:border-zinc-800 verde:border-emerald-900 rounded-xl px-4 py-3 text-2xl font-black text-zinc-900 dark:text-white verde:text-emerald-50 text-center focus:ring-2 focus:ring-emerald-500 outline-none transition-shadow"
+                        className="w-full bg-zinc-100 dark:bg-zinc-950 verde:bg-[#022c22] border border-zinc-200 dark:border-zinc-850 verde:border-emerald-900 rounded-xl px-4 py-2 text-xl font-black text-zinc-900 dark:text-white verde:text-emerald-50 text-center focus:ring-2 focus:ring-rose-500 outline-none transition-shadow"
                     />
                 </div>
 
-                <div className="bg-white p-3 rounded-2xl shadow-sm mb-4">
-                    <QRCodeSVG value={pixPayload} size={160} level="M" includeMargin={false} />
+                <div className="bg-white p-2 rounded-2xl shadow-sm mb-4 border border-zinc-100">
+                    <QRCodeSVG value={pixPayload} size={150} level="M" includeMargin={false} />
                 </div>
 
                 <button
@@ -86,7 +104,7 @@ export function PixDonation() {
                     {copied ? (
                         <>
                             <Check className="w-4 h-4" />
-                            Chave Copiada!
+                            Copiado com Sucesso!
                         </>
                     ) : (
                         <>
@@ -100,3 +118,4 @@ export function PixDonation() {
         </div>
     );
 }
+

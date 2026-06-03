@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { generateMegasenaGames, MegasenaSimulationResult } from "@/utils/megasena";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function MegasenaPage() {
     const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
@@ -224,6 +225,8 @@ export default function MegasenaPage() {
                                 ))}
                             </div>
                         </section>
+
+                        <DonationCTA />
 
                     </div>
                 )}

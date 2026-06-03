@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { generateDynamicMegasenaGames, DynamicMegasenaSimulationResult } from "@/utils/megasena";
 import { prospectMegasenaNumbers } from "@/app/actions";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function ProspectarMegasena() {
     const [limit, setLimit] = useState<number | "all">(10);
@@ -225,6 +226,8 @@ export default function ProspectarMegasena() {
                                 ))}
                             </div>
                         </section>
+
+                        <DonationCTA />
 
                     </div>
                 )}

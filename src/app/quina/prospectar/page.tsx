@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { generateDynamicQuinaGames, DynamicQuinaSimulationResult } from "@/utils/quina";
 import { prospectQuinaNumbers } from "@/app/actions";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function ProspectarQuina() {
     const [limit, setLimit] = useState<number | "all">(10);
@@ -225,6 +226,8 @@ export default function ProspectarQuina() {
                                 ))}
                             </div>
                         </section>
+
+                        <DonationCTA />
 
                     </div>
                 )}

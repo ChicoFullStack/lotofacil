@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { generateDynamicGames, DynamicSimulationResult } from "@/utils/lotofacil";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function SimuladorDinamico() {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
@@ -212,6 +213,8 @@ export default function SimuladorDinamico() {
                 ))}
               </div>
             </section>
+
+            <DonationCTA />
 
           </div>
         )}

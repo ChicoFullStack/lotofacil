@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Dices, Menu, X } from "lucide-react";
+import { LayoutDashboard, Dices, Menu, X, Heart, BookOpen } from "lucide-react";
 
 export function Sidebar() {
     const pathname = usePathname();
@@ -33,6 +33,22 @@ export function Sidebar() {
             isMatch: (p: string) => p.startsWith("/megasena"),
             colors: "hover:bg-orange-100 hover:text-orange-700 dark:hover:bg-orange-900/40 dark:hover:text-orange-400 verde:hover:bg-orange-900",
             activeColors: "bg-orange-100 text-orange-800 dark:bg-orange-900/60 dark:text-orange-300 verde:bg-orange-900 verde:text-orange-100"
+        },
+        {
+            name: "Apoiar Projeto",
+            path: "/apoiar",
+            icon: <Heart className="w-5 h-5 fill-rose-500 text-rose-500" />,
+            isMatch: (p: string) => p.startsWith("/apoiar"),
+            colors: "hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/40 dark:hover:text-rose-450 verde:hover:bg-rose-950",
+            activeColors: "bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-350 verde:bg-rose-950 verde:text-rose-100"
+        },
+        {
+            name: "Como Funciona",
+            path: "/como-funciona",
+            icon: <BookOpen className="w-5 h-5" />,
+            isMatch: (p: string) => p.startsWith("/como-funciona"),
+            colors: "hover:bg-zinc-100 hover:text-zinc-800 dark:hover:bg-zinc-800/40 dark:hover:text-zinc-200 verde:hover:bg-emerald-900/60",
+            activeColors: "bg-zinc-100 text-zinc-850 dark:bg-zinc-800 dark:text-zinc-100 verde:bg-emerald-800 verde:text-emerald-50"
         }
     ];
 

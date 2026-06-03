@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { generateDynamicGames, DynamicSimulationResult } from "@/utils/lotofacil";
 import { prospectNumbers } from "@/app/actions";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function Prospectar() {
     const [limit, setLimit] = useState<number | "all">(10);
@@ -225,6 +226,8 @@ export default function Prospectar() {
                                 ))}
                             </div>
                         </section>
+
+                        <DonationCTA />
 
                     </div>
                 )}

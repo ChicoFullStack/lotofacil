@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { generateGames, SimulationResult } from "@/utils/lotofacil";
+import { DonationCTA } from "@/components/DonationCTA";
 
 export default function Home() {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
@@ -236,6 +237,8 @@ export default function Home() {
                 ))}
               </div>
             </section>
+
+            <DonationCTA />
 
           </div>
         )}
